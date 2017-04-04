@@ -1,40 +1,31 @@
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import pdf.PdfDecoder;
+import selenium.redeexpressos.RedeExpressosSearch;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by MiguelFreitas(114127 on 4/1/2017.
  */
 public class Main {
 
-    public static void main(String[] args) throws InterruptedException {
-        System.out.println("hello");
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
 
-        File file = new File("chromedriver.exe");
-        if (!file.exists()){
-            System.out.println("WebDriver not found.");
-            System.exit(1);
+        File chromeDriver = new File("chromedriver.exe");
+
+        if (!chromeDriver.exists()){
+            throw new FileNotFoundException("Web driver não encontrada.");
         }
 
-        System.setProperty("webdriver.chrome.driver", file.getAbsolutePath());
+        System.setProperty("webdriver.chrome.driver", chromeDriver.getAbsolutePath());
 
-        WebDriver driver = new ChromeDriver();
+        WebDriver wd = new ChromeDriver();
 
-        driver.get("http://www.santosviagensturismo.pt/pt/");
+        new RedeExpressosSearch(wd, "Lamego", "Porto");
 
-        String test = "Lamego";
-
-        WebElement search = driver.findElement(By.cssSelector("#s2id_bilheteira-origem"));
-        search.click();
-
-        Thread.sleep(7000);
-        search = driver.findElement(By.cssSelector("#s2id_autogen5_search"));
-        search.sendKeys("Lamego");
-        Thread.sleep(5000);
     }
 
 
